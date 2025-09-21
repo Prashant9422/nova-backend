@@ -1,0 +1,46 @@
+# .NET
+.vs/
+.vscode/
+bin/
+obj/
+
+# User-specific files
+*.user
+*.userosscache
+*.suo
+*.userprefs
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
+
+# Windows Installer logs
+*.log
+
+# ASP.NET
+aspnet-client/
+
+# .NET Core
+project.lock.json
+project.fragment.lock.json
+*.xproj.user
+
+# Rider IDE
+.idea/
+
+# Tye
+.tye/
+
+# Node.js dependencies
+node_modules/
+
+# .NET Core temporary files
+_._.project
+
+# Windows Installer files
+*.cab
+*.msi
+*.msm
+*.msp
