@@ -245,6 +245,14 @@ public class EmployeesController : ControllerBase
         var items = await _svc.SearchAsync(q);
         return Ok(items);
     }
+
+    [HttpPost("bulk")]
+    public async Task<IActionResult> Bulk([FromBody] IEnumerable<CreateEmployeeDto> dtos)
+    {
+        if (dtos == null) return BadRequest("Provide non-empty array of products.");
+        var created = await _svc.BulkCreateAsync(dtos);
+        return Ok(created);
+    }
 }
 
 

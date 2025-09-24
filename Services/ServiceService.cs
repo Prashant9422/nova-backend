@@ -57,6 +57,11 @@ public class ServiceService : IServiceService
         return _mapper.Map<IEnumerable<ServiceDto>>(list);
     }
 
-    
-
+    public async Task<IEnumerable<ServiceDto>> BulkCreateAsync(IEnumerable<CreateServiceDto> dtos)
+    {
+        if (dtos == null) return Enumerable.Empty<ServiceDto>();
+        var entities = dtos.Select(d => _mapper.Map<Service>(d)).ToList();
+        var created = await _repo.AddRangeAsync(entities);
+        return _mapper.Map<IEnumerable<ServiceDto>>(created);
+    }
 }

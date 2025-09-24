@@ -12,4 +12,5 @@ public interface IServiceService
     Task<ServiceDto?> UpdateAsync(int id, CreateServiceDto dto);
     Task DeleteAsync(int id);
     Task<IEnumerable<ServiceDto>> SearchAsync(string keyword);
+    Task<IEnumerable<ServiceDto>> BulkCreateAsync(IEnumerable<CreateServiceDto> dtos);
 }

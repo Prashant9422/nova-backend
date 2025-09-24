@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using NovaApp.Data;
@@ -302,5 +303,13 @@ public class ProductsController : ControllerBase
         if (size <= 0) size = 10;
         var (items, total) = await _svc.GetPagedAsync(page, size);
         return Ok(new { page, size, totalRecords = total, items });
+    }
+
+    [HttpPost("bulk")]
+    public async Task<IActionResult> Bulk([FromBody] IEnumerable<CreateProductDto> dtos)
+    {
+        if (dtos == null) return BadRequest("Provide non-empty array of products.");
+        var created = await _svc.BulkCreateAsync(dtos);
+        return Ok(created);
     }
 }

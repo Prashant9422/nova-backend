@@ -63,5 +63,13 @@ namespace NovaApp.Services
             var list = await _repo.SearchAsync(keyword); // Added 'await' here
             return _mapper.Map<IEnumerable<EmployeeDto>>(list);
         }
+
+        public async Task<IEnumerable<EmployeeDto>> BulkCreateAsync(IEnumerable<CreateEmployeeDto> dtos)
+        {
+            if (dtos == null) return Enumerable.Empty<EmployeeDto>();
+            var entities = dtos.Select(d => _mapper.Map<Employee>(d)).ToList();
+            var createdEntities = await _repo.AddRangeAsync(entities);
+            return _mapper.Map<IEnumerable<EmployeeDto>>(createdEntities);
+        }
     }
 }

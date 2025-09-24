@@ -9,5 +9,5 @@ public interface IProductRepository : IGenericRepository<Product>
 {
     Task<IEnumerable<Product>> SearchAsync(string keyword);
 
-    Task BulkAddAsync(IEnumerable<Product> products);
+    // Task BulkAddAsync(IEnumerable<Product> products);
 }

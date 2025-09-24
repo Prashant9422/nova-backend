@@ -15,6 +15,14 @@ public class ProductService : IProductService
         _mapper = mapper;
     }
 
+    public async Task<IEnumerable<ProductDto>> BulkCreateAsync(IEnumerable<CreateProductDto> dtos)
+    {
+        if (dtos == null) return Enumerable.Empty<ProductDto>();
+        var entities = dtos.Select(dto => _mapper.Map<Product>(dto)).ToList();
+        var created= await _repo.AddRangeAsync(entities);
+        return _mapper.Map<IEnumerable<ProductDto>>(created);
+    }
+
     public async Task<ProductDto> CreateAsync(CreateProductDto dto)
     {
         var entity = _mapper.Map<Product>(dto);

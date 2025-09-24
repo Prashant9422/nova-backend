@@ -13,4 +13,6 @@ public interface IEmployeeService
     Task DeleteAsync(int id);
     Task<IEnumerable<EmployeeDto>> GetCoreTeamAsync();
     Task<IEnumerable<EmployeeDto>> SearchAsync(string keyword);
+
+    Task<IEnumerable<EmployeeDto>> BulkCreateAsync(IEnumerable<CreateEmployeeDto> dtos);
 }

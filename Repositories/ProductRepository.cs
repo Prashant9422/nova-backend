@@ -30,9 +30,11 @@ public class ProductRepository : GenericRepository<Product>, IProductRepository
             .ToListAsync();
     }
 
-    public async Task BulkAddAsync(IEnumerable<Product> products)
-    {
-        await _context.Products.AddRangeAsync(products);
-        await _context.SaveChangesAsync();
-    }
+    // public async Task BulkAddAsync(IEnumerable<Product> products)
+    // {
+    //     await _context.Products.AddRangeAsync(products);
+    //     await _context.SaveChangesAsync();
+    // }
+
+    
 }
