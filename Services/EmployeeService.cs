@@ -71,5 +71,11 @@ namespace NovaApp.Services
             var createdEntities = await _repo.AddRangeAsync(entities);
             return _mapper.Map<IEnumerable<EmployeeDto>>(createdEntities);
         }
+
+        public async Task<(IEnumerable<EmployeeDto> Items, int Total)> GetFilteredAsync(string? q, string? department, string? position, bool? coreTeam, string? sortBy, bool desc, int page, int size)
+        {
+            var (items, total) = await _repo.GetFilteredAsync(q, department, position, coreTeam, sortBy, desc, page, size);
+            return (_mapper.Map<IEnumerable<EmployeeDto>>(items), total);
+        }
     }
 }

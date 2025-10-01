@@ -19,7 +19,7 @@ public class ProductService : IProductService
     {
         if (dtos == null) return Enumerable.Empty<ProductDto>();
         var entities = dtos.Select(dto => _mapper.Map<Product>(dto)).ToList();
-        var created= await _repo.AddRangeAsync(entities);
+        var created = await _repo.AddRangeAsync(entities);
         return _mapper.Map<IEnumerable<ProductDto>>(created);
     }
 
@@ -37,7 +37,7 @@ public class ProductService : IProductService
         {
             return;
         }
-         await _repo.DeleteAsync(entity);
+        await _repo.DeleteAsync(entity);
     }
 
     public async Task<IEnumerable<ProductDto>> GetAllAsync()
@@ -53,12 +53,18 @@ public class ProductService : IProductService
         return _mapper.Map<ProductDto>(entities);
     }
 
+    public async Task<(IEnumerable<ProductDto> Items, int Total)> GetFilteredAsync(string? q, decimal? minPrice, decimal? maxPrice, double? minRating, string? sortBy, bool desc, int page, int size)
+    {
+        var (items, total) = await _repo.GetFilteredAsync(q, minPrice, maxPrice, minRating, sortBy, desc, page, size);
+        return (_mapper.Map<IEnumerable<ProductDto>>(items), total);
+    }
+
     public async Task<(IEnumerable<ProductDto> Items, int Total)> GetPagedAsync(int page, int size)
-    { 
+    {
         var all = (await _repo.GetAllAsync()).OrderBy(p => p.Id).ToList();
         var total = all.Count;
-        var items = all.Skip((page-1)*size).Take(size);
-        return (_mapper.Map<IEnumerable<ProductDto>>(items),total);
+        var items = all.Skip((page - 1) * size).Take(size);
+        return (_mapper.Map<IEnumerable<ProductDto>>(items), total);
     }
 
     public async Task<IEnumerable<ProductDto>> SearchAsync(string keyword)
@@ -70,8 +76,8 @@ public class ProductService : IProductService
     public async Task<ProductDto?> UpdateAsync(int id, CreateProductDto dto)
     {
         var pro = await _repo.GetByIdAsync(id);
-        if(pro==null) return null;
-        _mapper.Map(dto,pro);
+        if (pro == null) return null;
+        _mapper.Map(dto, pro);
         await _repo.UpdateAsync(pro);
         return _mapper.Map<ProductDto>(pro);
     }
