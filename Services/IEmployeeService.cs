@@ -15,4 +15,15 @@ public interface IEmployeeService
     Task<IEnumerable<EmployeeDto>> SearchAsync(string keyword);
 
     Task<IEnumerable<EmployeeDto>> BulkCreateAsync(IEnumerable<CreateEmployeeDto> dtos);
+
+    Task<(IEnumerable<EmployeeDto> Items, int Total)> GetFilteredAsync(
+    string? q,
+    string? department,
+    string? position,
+    bool? coreTeam,
+    string? sortBy,
+    bool desc,
+    int page,
+    int size);
+
 }

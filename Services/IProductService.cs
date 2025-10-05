@@ -15,4 +15,14 @@ public interface IProductService
     Task<IEnumerable<ProductDto>> SearchAsync(string keyword);
     Task<(IEnumerable<ProductDto> Items, int Total)> GetPagedAsync(int page, int size);
     Task<IEnumerable<ProductDto>> BulkCreateAsync(IEnumerable<CreateProductDto> dtos);
+    Task<(IEnumerable<ProductDto> Items, int Total)> GetFilteredAsync(
+    string? q,
+    decimal? minPrice,
+    decimal? maxPrice,
+    double? minRating,
+    string? sortBy,
+    bool desc,
+    int page,
+    int size);
+
 }

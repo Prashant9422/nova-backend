@@ -312,4 +312,19 @@ public class ProductsController : ControllerBase
         var created = await _svc.BulkCreateAsync(dtos);
         return Ok(created);
     }
+
+    [HttpGet("query")]
+    public async Task<IActionResult> Query(
+    [FromQuery] string? q,
+    [FromQuery] decimal? minPrice,
+    [FromQuery] decimal? maxPrice,
+    [FromQuery] double? minRating,
+    [FromQuery] string? sortBy,
+    [FromQuery] bool desc = false,
+    [FromQuery] int page = 0,
+    [FromQuery] int size = 10)
+    {
+        var (items, total) = await _svc.GetFilteredAsync(q, minPrice, maxPrice, minRating, sortBy, desc, page, size);
+        return Ok(new { page, size, totalRecords = total, items });
+    }
 }

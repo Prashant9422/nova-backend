@@ -31,15 +31,15 @@ public class ServiceService : IServiceService
     public async Task<ServiceDto?> GetByIdAsync(int id)
     {
         var ser = await _repo.GetByIdAsync(id);
-        if(ser == null) return null;
+        if (ser == null) return null;
         return _mapper.Map<ServiceDto>(ser);
     }
 
     public async Task<ServiceDto?> UpdateAsync(int id, CreateServiceDto dto)
     {
         var ser = await _repo.GetByIdAsync(id);
-        if(ser == null) return null;
-        _mapper.Map(dto,ser);
+        if (ser == null) return null;
+        _mapper.Map(dto, ser);
         await _repo.UpdateAsync(ser);
         return _mapper.Map<ServiceDto>(ser);
     }
@@ -47,7 +47,7 @@ public class ServiceService : IServiceService
     public async Task DeleteAsync(int id)
     {
         var ser = await _repo.GetByIdAsync(id);
-        if(ser == null) return;
+        if (ser == null) return;
         await _repo.DeleteAsync(ser);
     }
 
@@ -63,5 +63,11 @@ public class ServiceService : IServiceService
         var entities = dtos.Select(d => _mapper.Map<Service>(d)).ToList();
         var created = await _repo.AddRangeAsync(entities);
         return _mapper.Map<IEnumerable<ServiceDto>>(created);
+    }
+
+    public async Task<(IEnumerable<ServiceDto> Items, int Total)> GetFilteredAsync(string? q, decimal? minPrice, decimal? maxPrice, string? sortBy, bool desc, int page, int size)
+    {
+        var (items, total) = await _repo.GetFilteredAsync(q, minPrice, maxPrice, sortBy, desc, page, size);
+        return (_mapper.Map<IEnumerable<ServiceDto>>(items), total);
     }
 }
