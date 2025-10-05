@@ -13,4 +13,14 @@ public interface IServiceService
     Task DeleteAsync(int id);
     Task<IEnumerable<ServiceDto>> SearchAsync(string keyword);
     Task<IEnumerable<ServiceDto>> BulkCreateAsync(IEnumerable<CreateServiceDto> dtos);
+
+    Task<(IEnumerable<ServiceDto> Items, int Total)> GetFilteredAsync(
+    string? q,
+    decimal? minPrice,
+    decimal? maxPrice,
+    string? sortBy,
+    bool desc,
+    int page,
+    int size);
+
 }

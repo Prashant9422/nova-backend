@@ -10,4 +10,12 @@ public interface IServiceRepository : IGenericRepository<Service>
     // add service-specific methods if needed
     Task<IEnumerable<Service>> SearchAsync(string keyword);
 
+    Task<(IEnumerable<Service> Items, int Total)> GetFilteredAsync(
+       string? q,
+       decimal? minPrice,
+       decimal? maxPrice,
+       string? sortBy,
+       bool desc,
+       int page,
+       int size);
 }
