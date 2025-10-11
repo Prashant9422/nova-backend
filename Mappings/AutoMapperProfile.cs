@@ -21,5 +21,15 @@ public class AutoMapperProfile : Profile
         // Employee
         CreateMap<Employee, EmployeeDto>().ReverseMap();
         CreateMap<CreateEmployeeDto, Employee>();
+
+        // Auth / User mappings
+        // RegisterDto -> User (map incoming registration data to entity)
+        CreateMap<RegisterDto, User>()
+            .ForMember(dest => dest.PasswordHash, opt => opt.Ignore()) // don't map password as hash here
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())    // will be set by model default or DB
+            .ForMember(dest => dest.Role, opt => opt.Condition(src => !string.IsNullOrWhiteSpace(src.Role))); // map role only if provided
+
+        // User -> UserDto (safe public projection)
+        CreateMap<User, UserDto>();
     }
 }
