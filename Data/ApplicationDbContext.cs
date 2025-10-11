@@ -10,6 +10,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<Service> Services { get; set; } = null!;
     public DbSet<Employee> Employees { get; set; } = null!;
 
+    public DbSet<User> Users { get; set; } = null!;
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);

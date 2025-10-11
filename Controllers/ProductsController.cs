@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.JSInterop.Infrastructure;
 using NovaApp.Data;
 using NovaApp.DTOs;
 using NovaApp.Models;
@@ -258,6 +260,7 @@ public class ProductsController : ControllerBase
     public ProductsController(IProductService svc) => _svc = svc;
 
     [HttpPost("create")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
     {
         var created = await _svc.CreateAsync(dto);
@@ -265,6 +268,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("getAll")]
+    [Authorize(Policy = "UserOrAdmin")]
     public async Task<IActionResult> GetAll() => Ok(await _svc.GetAllAsync());
 
     [HttpGet("getById/{id:int}")]
@@ -275,6 +279,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("update/{id}")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Update(int id, [FromBody] CreateProductDto dto)
     {
         var updated = await _svc.UpdateAsync(id, dto);
@@ -282,6 +287,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("delete/{id}")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Delete(int id)
     {
         await _svc.DeleteAsync(id);
@@ -306,6 +312,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost("bulk")]
+    [Authorize(Policy = "AdminOnly")]
     public async Task<IActionResult> Bulk([FromBody] IEnumerable<CreateProductDto> dtos)
     {
         if (dtos == null) return BadRequest("Provide non-empty array of products.");
